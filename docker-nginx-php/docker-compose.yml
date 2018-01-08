@@ -1,0 +1,26 @@
+web:
+    image: nginx:latest
+    ports:
+        - "80:80"
+    container_name: nunolobo
+    restart: always
+
+    volumes:
+        - ./etc/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+
+        - ./logs/nginx-error.log:/var/log/nginx/error.log
+        - ./logs/nginx-access.log:/var/log/nginx/access.log
+
+    links:
+        - php
+php:
+    build: ./images/php-fpm
+    ports:
+        - "9000:9000"
+    container_name: omeu-php
+    restart: always
+
+    volumes:
+        - ./etc/php/php.ini:/usr/local/etc/php/php.ini
+        - ./public:/var/www/public_html
+
